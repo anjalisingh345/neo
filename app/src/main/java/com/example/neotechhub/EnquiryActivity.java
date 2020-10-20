@@ -14,14 +14,25 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class EnquiryActivity extends AppCompatActivity {
     Button submit_btn;
@@ -30,10 +41,11 @@ public class EnquiryActivity extends AppCompatActivity {
     ImageView back_btn;
     int count=1;
     Spinner spinner;
-
+    RequestQueue requestQueue;
     TextInputEditText dob;
+    ProgressBar progressBar;
     TextInputEditText name,surname,email,address,contact,gettoknow,gwnder,college;
-Toolbar toolbar;
+
 
     DatePickerDialog.OnDateSetListener dt = new DatePickerDialog.OnDateSetListener() {
         @Override
@@ -51,16 +63,23 @@ Toolbar toolbar;
         setContentView(R.layout.activity_enquiry);
         submit_btn = findViewById(R.id.submitbutton);
 
-        toolbar = findViewById(R.id.toolbar_actionbar);
-        back_btn = findViewById(R.id.back);
-        back_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(EnquiryActivity.this,MainActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+        progressBar=findViewById(R.id.progressbar);
+//        toolbar = findViewById(R.id.toolbar_actionbar);
+//        back_btn = findViewById(R.id.back);
+//        back_btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(EnquiryActivity.this,MainActivity.class);
+//                startActivity(intent);
+//                finish();
+//            }
+//        });
+
+
+
+
+        name=findViewById(R.id.edtname);
+
 
 
         camera = findViewById(R.id.photo);
@@ -93,7 +112,8 @@ Toolbar toolbar;
         submit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(EnquiryActivity.this, Show_studentdata.class));
+                insertdata();
+//                startActivity(new Intent(EnquiryActivity.this, Show_studentdata.class));
             }
         });
 
@@ -121,5 +141,54 @@ Toolbar toolbar;
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+
+    private void insertdata() {
+
+        progressBar.setVisibility(View.VISIBLE);
+        StringRequest request=new StringRequest(Request.Method.POST, EndPoints.registration_api, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                Toast.makeText(EnquiryActivity.this, response, Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(EnquiryActivity.this,error.getMessage().toString(), Toast.LENGTH_SHORT).show();
+
+
+                progressBar.setVisibility(View.GONE);
+            }
+        })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params=new HashMap<String,String>();
+                params.put("name",name.getText().toString());
+                params.put("surname","singh");
+                params.put("email","ns7444");
+                params.put("contact","3223");
+                params.put("stream","2322");
+                params.put("college","36363");
+                params.put("gettoknow","dhhdhd");
+                params.put("course","djdjd");
+                params.put("image","jdejdj");
+                return params;
+            }
+        };
+
+        requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(request);
+
+
+
     }
+
+
+
+
+
+
+}
 
