@@ -44,7 +44,7 @@ public class EnquiryActivity extends AppCompatActivity {
     RequestQueue requestQueue;
     TextInputEditText dob;
     ProgressBar progressBar;
-    TextInputEditText name,surname,email,address,contact,gettoknow,gwnder,college;
+    TextInputEditText name,surname,email,address,contact,gettoknow,gender,college,stream;
 
 
     DatePickerDialog.OnDateSetListener dt = new DatePickerDialog.OnDateSetListener() {
@@ -79,6 +79,14 @@ public class EnquiryActivity extends AppCompatActivity {
 
 
         name=findViewById(R.id.edtname);
+        surname = findViewById(R.id.edtsurname);
+        email=findViewById(R.id.edtname);
+        address = findViewById(R.id.edtaddress);
+        contact=findViewById(R.id.edtmobile);
+        college = findViewById(R.id.edtcollege);
+        gettoknow=findViewById(R.id.edtgettoknow);
+        stream = findViewById(R.id.edtstream);
+        gender = findViewById(R.id.edtgender);
 
 
 
@@ -149,14 +157,15 @@ public class EnquiryActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
 
-                Toast.makeText(EnquiryActivity.this, response, Toast.LENGTH_SHORT).show();
+                Toast.makeText(EnquiryActivity.this, response
+                        , Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(EnquiryActivity.this,error.getMessage().toString(), Toast.LENGTH_SHORT).show();
-
+                Toast.makeText(EnquiryActivity.this,error
+                        .getLocalizedMessage().toString(),Toast.LENGTH_LONG).show();
 
                 progressBar.setVisibility(View.GONE);
             }
@@ -166,12 +175,13 @@ public class EnquiryActivity extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> params=new HashMap<String,String>();
                 params.put("name",name.getText().toString());
-                params.put("surname","singh");
-                params.put("email","ns7444");
-                params.put("contact","3223");
-                params.put("stream","2322");
-                params.put("college","36363");
-                params.put("gettoknow","dhhdhd");
+                params.put("surname",surname.getText().toString());
+                params.put("email",email.getText().toString());
+                params.put("contact",contact.getText().toString());
+                params.put("stream",stream.getText().toString());
+                params.put("college",college.getText().toString());
+                params.put("gettoknow",gettoknow.getText().toString());
+                params.put("gender",gender.getText().toString());
                 params.put("course","djdjd");
                 params.put("image","jdejdj");
                 return params;

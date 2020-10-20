@@ -47,7 +47,7 @@
                         android:gravity="center"
                         android:onClick="LoginWithEmail"
                         android:padding="7dp"
-                        android:text="@string/data_entry"
+                        android:text="Show Data"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
                         android:textSize="20dp"

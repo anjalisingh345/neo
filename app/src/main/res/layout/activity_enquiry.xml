@@ -45,7 +45,7 @@
                            android:layout_height="wrap_content"
                            android:drawablePadding="5dp"
                            android:hint="@string/name"
-                           android:inputType="textPassword"
+                           android:inputType="text"
                            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
                    </com.google.android.material.textfield.TextInputLayout>
@@ -61,7 +61,7 @@
                            android:layout_height="wrap_content"
                            android:drawablePadding="5dp"
                            android:hint="@string/surname"
-                           android:inputType="textPassword"
+                           android:inputType="text"
                            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
                    </com.google.android.material.textfield.TextInputLayout>
@@ -98,6 +98,23 @@
                            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
                    </com.google.android.material.textfield.TextInputLayout>
+
+                   <com.google.android.material.textfield.TextInputLayout
+                       android:id="@+id/inputgender"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content">
+
+                       <com.google.android.material.textfield.TextInputEditText
+                           android:id="@+id/edtgender"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:drawablePadding="5dp"
+                           android:hint="gender"
+                           android:inputType="text"
+                           android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+                   </com.google.android.material.textfield.TextInputLayout>
+
 
                    <com.google.android.material.textfield.TextInputLayout
                        android:id="@+id/inputaddress"
@@ -176,7 +193,7 @@
                                android:layout_height="wrap_content"
                                android:drawablePadding="5dp"
                                android:hint="Get to Know"
-                               android:inputType="number"
+                               android:inputType="text"
                                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
                        </com.google.android.material.textfield.TextInputLayout>
