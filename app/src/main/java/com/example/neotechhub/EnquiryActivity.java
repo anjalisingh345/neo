@@ -243,7 +243,7 @@ public class EnquiryActivity extends AppCompatActivity {
                 params.put("gettoknow",gettoknow.getText().toString());
                 params.put("gender",gender.getText().toString());
                 params.put("course",spinner.getSelectedItem().toString());
-                params.put("image",encodingimage);
+              //  params.put("image",encodingimage);
                 return params;
             }
         };

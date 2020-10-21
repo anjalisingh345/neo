@@ -72,7 +72,7 @@ public class Show_studentdata extends AppCompatActivity {
                         String college=obj.getString("college");
                         String gettoknow=obj.getString("gettoknow");
                         String course=obj.getString("course");
-                        String img=obj.getString("image");
+                      //  String img=obj.getString("image");
 
 
 
@@ -87,10 +87,11 @@ public class Show_studentdata extends AppCompatActivity {
                         model.setStream(stream);
                         model.setCollege(college);
                         model.setGettoknow(gettoknow);
-                        model.setImage(img);
+                       // model.setImage(img);
                         model.setCourse(course);
 
                         mydata.add(model);
+                        Toast.makeText(Show_studentdata.this,""+name,Toast.LENGTH_LONG).show();
 
                     }
                 } catch (JSONException e) {
@@ -99,6 +100,7 @@ public class Show_studentdata extends AppCompatActivity {
                 }
                 Adapter adapter =new Adapter(Show_studentdata.this,mydata);
                 rc.setAdapter(adapter);
+                Toast.makeText(Show_studentdata.this,""+mydata.size(),Toast.LENGTH_LONG).show();
 
 
 

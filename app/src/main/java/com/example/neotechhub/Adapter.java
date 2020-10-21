@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
 
@@ -62,7 +64,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView name,surname,email,dob,gender,address,contact,stream,college,gettoknow,course;
-        ImageView im;
+        CircleImageView im;
         RelativeLayout click;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
