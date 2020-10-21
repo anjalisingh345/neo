@@ -3,12 +3,18 @@ package com.example.neotechhub;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -28,16 +34,32 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.textfield.TextInputEditText;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class EnquiryActivity extends AppCompatActivity {
+    ProgressDialog prgDialog;
+   Bitmap bitmap;
+   String encodingimage;
+    private static int RESULT_LOAD_IMG = 1;
+    private static int REQUEST_IMAGE_CAPTURE = 1;
+    private static String TIME_STAMP="null";
     Button submit_btn;
-    TextView camera;
-    ImageView image;
+
+    ImageView camera;
+    CircleImageView profile;
     ImageView back_btn;
     int count=1;
     Spinner spinner;
@@ -90,8 +112,8 @@ public class EnquiryActivity extends AppCompatActivity {
 
 
 
-        camera = findViewById(R.id.photo);
-        image = findViewById(R.id.img);
+        camera = findViewById(R.id.img);
+        profile = findViewById(R.id.profile);
         dob = findViewById(R.id.edtdob);
         spinner = findViewById(R.id.spinner);
 
@@ -128,9 +150,30 @@ public class EnquiryActivity extends AppCompatActivity {
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i3 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+               // Intent i3 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                //startActivityForResult(i3, count);
 
-                startActivityForResult(i3, count);
+                Dexter.withContext(getApplicationContext())
+                        .withPermission(Manifest.permission.CAMERA)
+                        .withListener(new PermissionListener() {
+                            @Override
+                            public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
+
+                                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                startActivityForResult(intent,111);
+                            }
+
+                            @Override
+                            public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
+
+                            }
+
+                            @Override
+                            public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
+
+                                permissionToken.continuePermissionRequest();
+                            }
+                        }).check();
             }
         });
 
@@ -138,16 +181,32 @@ public class EnquiryActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode==1) {
-            Bundle b = data.getExtras();
-            Bitmap btp = (Bitmap) b.get("data");
-            image.setImageBitmap(btp);
+       if (requestCode==111 && resultCode == RESULT_OK) {
 
-            count++;
-        }
+           bitmap = (Bitmap)data.getExtras().get("data");
+           profile.setImageBitmap(bitmap);
+           encodebitmap(bitmap);
+       }
+      //      Bundle b = data.getExtras();
+        //    Bitmap btp = (Bitmap) b.get("data");
+          //  image.setImageBitmap(btp);
 
-        super.onActivityResult(requestCode, resultCode, data);
+            //count++;
+
+
+
+
+       super.onActivityResult(requestCode, resultCode, data);
     }
+
+    private void encodebitmap(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
+
+        byte[] byteofimages = byteArrayOutputStream.toByteArray();
+        encodingimage = android.util.Base64.encodeToString(byteofimages, Base64.DEFAULT);
+    }
+
 
 
     private void insertdata() {
@@ -157,6 +216,7 @@ public class EnquiryActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
 
+                profile.setImageResource(R.drawable.ic_launcher_background);
                 Toast.makeText(EnquiryActivity.this, response
                         , Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
@@ -182,8 +242,8 @@ public class EnquiryActivity extends AppCompatActivity {
                 params.put("college",college.getText().toString());
                 params.put("gettoknow",gettoknow.getText().toString());
                 params.put("gender",gender.getText().toString());
-                params.put("course","djdjd");
-                params.put("image","jdejdj");
+                params.put("course",spinner.getSelectedItem().toString());
+                params.put("image",encodingimage);
                 return params;
             }
         };

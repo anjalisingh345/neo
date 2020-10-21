@@ -7,23 +7,16 @@
     android:layout_height="match_parent"
     tools:context=".Show_studentdata">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/recycler"
-        android:layout_marginTop="20dp"/>
-
     <Button
         android:id="@+id/excel"
         android:layout_width="wrap_content"
-
         android:layout_height="wrap_content"
-        android:layout_below="@+id/recycler"
-        android:layout_centerInParent="true"
         android:layout_marginStart="@dimen/margin_10dp"
-        android:layout_marginTop="151dp"
         android:layout_marginEnd="@dimen/margin_10dp"
         android:layout_weight="1"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/margin_10dp"
+        android:layout_marginTop="15dp"
         android:background="@drawable/right_btn_bg"
         android:gravity="center"
         android:onClick="Excel"
@@ -33,5 +26,25 @@
         android:textColor="@color/white"
         android:textSize="@dimen/mid_text"
         android:textStyle="bold" />
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="20dp"
+        android:id="@+id/progressbar"
+        android:layout_below="@+id/excel"
+        android:visibility="gone"
+        android:progressTint="@color/colorPrimary"
+        android:layout_centerInParent="true">
+
+    </ProgressBar>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/recycler"
+        android:layout_below="@+id/excel"
+        android:layout_marginTop="20dp"/>
+
+
 
 </RelativeLayout>
