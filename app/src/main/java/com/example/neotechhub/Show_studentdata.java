@@ -67,7 +67,7 @@ public class Show_studentdata extends AppCompatActivity {
                         String stream=obj.getString("stream");
                         String college=obj.getString("college");
                         String gettoknow=obj.getString("gettoknow");
-                       // String course=obj.getString("course");
+                        String course=obj.getString("course");
                        // String img=obj.getString("image");
 
                         EnquiryModel model = new EnquiryModel();
@@ -82,7 +82,7 @@ public class Show_studentdata extends AppCompatActivity {
                         model.setCollege(college);
                         model.setGettoknow(gettoknow);
                        // model.setImage(img);
-                       // model.setCourse(course);
+                        model.setCourse(course);
 
 
 
