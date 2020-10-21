@@ -39,17 +39,17 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull Adapter.ViewHolder holder, int position) {
-        holder.name.setText(mydata.get(position).getName());
+        holder.name.setText("Name- "+mydata.get(position).getName());
         holder.surname.setText(mydata.get(position).getSurname());
-        holder.email.setText(mydata.get(position).getEmail());
-        holder.dob.setText(mydata.get(position).getDob());
-        holder.gender.setText(mydata.get(position).getGender());
-        holder.address.setText(mydata.get(position).getAddress());
-        holder.contact.setText(mydata.get(position).getContact());
-        holder.stream.setText(mydata.get(position).getStream());
-        holder.college.setText(mydata.get(position).getCollege());
-        holder.gettoknow.setText(mydata.get(position).getGettoknow());
-       // holder.course.setText(mydata.get(position).getCourse());
+        holder.email.setText("Email- "+mydata.get(position).getEmail());
+//        holder.dob.setText(mydata.get(position).getDob());
+//        holder.gender.setText(mydata.get(position).getGender());
+//        holder.address.setText(mydata.get(position).getAddress());
+        holder.contact.setText("Contact- "+mydata.get(position).getContact());
+        holder.stream.setText("Stream- "+mydata.get(position).getStream());
+        holder.college.setText("College- "+mydata.get(position).getCollege());
+        holder.gettoknow.setText("GettoKnow- "+mydata.get(position).getGettoknow());
+        holder.course.setText("Course- "+mydata.get(position).getCourse());
 
 
     }
