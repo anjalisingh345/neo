@@ -49,7 +49,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         holder.stream.setText(mydata.get(position).getStream());
         holder.college.setText(mydata.get(position).getCollege());
         holder.gettoknow.setText(mydata.get(position).getGettoknow());
-       // holder.course.setText(mydata.get(position).getCourse());
+        holder.course.setText(mydata.get(position).getCourse());
+
 
 
     }

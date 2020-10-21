@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -29,6 +30,7 @@ public class Show_studentdata extends AppCompatActivity {
     String Url="https://anjaliandroid.000webhostapp.com/Neotech/showdata.php";
 
     RequestQueue requestQueue;
+    ProgressBar progressBar;
 
     final List<EnquiryModel> mydata=new ArrayList<>();
     RecyclerView rc;
@@ -39,12 +41,14 @@ public class Show_studentdata extends AppCompatActivity {
         setContentView(R.layout.activity_show_studentdata);
 
         rc=findViewById(R.id.recycler);
+        progressBar = findViewById(R.id.progressbar);
 
         layoutManager=new LinearLayoutManager(Show_studentdata.this,LinearLayoutManager.VERTICAL,false);
         rc.setLayoutManager(layoutManager);
 
 
         //for getting place information
+
         requestQueue= Volley.newRequestQueue(Show_studentdata.this);
         JsonObjectRequest obj = new JsonObjectRequest(Request.Method.POST, Url,
                 new JSONObject(), new Response.Listener<JSONObject>() {
@@ -67,8 +71,10 @@ public class Show_studentdata extends AppCompatActivity {
                         String stream=obj.getString("stream");
                         String college=obj.getString("college");
                         String gettoknow=obj.getString("gettoknow");
-                       // String course=obj.getString("course");
-                       // String img=obj.getString("image");
+                        String course=obj.getString("course");
+                        String img=obj.getString("image");
+
+
 
                         EnquiryModel model = new EnquiryModel();
                         model.setName(name);
@@ -81,19 +87,19 @@ public class Show_studentdata extends AppCompatActivity {
                         model.setStream(stream);
                         model.setCollege(college);
                         model.setGettoknow(gettoknow);
-                       // model.setImage(img);
-                       // model.setCourse(course);
-
-
+                        model.setImage(img);
+                        model.setCourse(course);
 
                         mydata.add(model);
 
                     }
                 } catch (JSONException e) {
+
                     e.printStackTrace();
                 }
                 Adapter adapter =new Adapter(Show_studentdata.this,mydata);
                 rc.setAdapter(adapter);
+
 
 
             }
@@ -102,9 +108,11 @@ public class Show_studentdata extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(Show_studentdata.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
 
+                progressBar.setVisibility(View.GONE);
             }
         });
         requestQueue.add(obj);
+
 
 
 
