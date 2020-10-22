@@ -237,13 +237,15 @@ public class EnquiryActivity extends AppCompatActivity {
                 params.put("name",name.getText().toString());
                 params.put("surname",surname.getText().toString());
                 params.put("email",email.getText().toString());
+                params.put("dob",dob.getText().toString());
+                params.put("address",address.getText().toString());
                 params.put("contact",contact.getText().toString());
                 params.put("stream",stream.getText().toString());
                 params.put("college",college.getText().toString());
                 params.put("gettoknow",gettoknow.getText().toString());
                 params.put("gender",gender.getText().toString());
                 params.put("course",spinner.getSelectedItem().toString());
-              //  params.put("image",encodingimage);
+                params.put("image","encodingimage");
                 return params;
             }
         };
