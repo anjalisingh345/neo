@@ -102,7 +102,7 @@ public class EnquiryActivity extends AppCompatActivity {
 
         name=findViewById(R.id.edtname);
         surname = findViewById(R.id.edtsurname);
-        email=findViewById(R.id.edtname);
+        email=findViewById(R.id.edtEmail);
         address = findViewById(R.id.edtaddress);
         contact=findViewById(R.id.edtmobile);
         college = findViewById(R.id.edtcollege);
@@ -217,15 +217,15 @@ public class EnquiryActivity extends AppCompatActivity {
             public void onResponse(String response) {
 
                 profile.setImageResource(R.drawable.ic_launcher_background);
-                Toast.makeText(EnquiryActivity.this, response
-                        , Toast.LENGTH_SHORT).show();
+//                Toast.makeText(EnquiryActivity.this, response
+//                        , Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(EnquiryActivity.this,error
-                        .getLocalizedMessage().toString(),Toast.LENGTH_LONG).show();
+//                Toast.makeText(EnquiryActivity.this,error
+//                        .getLocalizedMessage().toString(),Toast.LENGTH_LONG).show();
 
                 progressBar.setVisibility(View.GONE);
             }
@@ -245,7 +245,7 @@ public class EnquiryActivity extends AppCompatActivity {
                 params.put("gettoknow",gettoknow.getText().toString());
                 params.put("gender",gender.getText().toString());
                 params.put("course",spinner.getSelectedItem().toString());
-                params.put("image","encodingimage");
+//                params.put("image","encodingimage");
                 return params;
             }
         };
