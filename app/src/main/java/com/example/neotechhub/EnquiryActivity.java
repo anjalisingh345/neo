@@ -53,8 +53,7 @@ public class EnquiryActivity extends AppCompatActivity {
     ProgressDialog prgDialog;
    Bitmap bitmap;
    String encodingimage;
-    private static int RESULT_LOAD_IMG = 1;
-    private static int REQUEST_IMAGE_CAPTURE = 1;
+   private static int REQUEST_IMAGE_CAPTURE = 1;
     private static String TIME_STAMP="null";
     Button submit_btn;
 
@@ -215,10 +214,7 @@ public class EnquiryActivity extends AppCompatActivity {
         StringRequest request=new StringRequest(Request.Method.POST, EndPoints.registration_api, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
-                profile.setImageResource(R.drawable.ic_launcher_background);
-//                Toast.makeText(EnquiryActivity.this, response
-//                        , Toast.LENGTH_SHORT).show();
+                Toast.makeText(EnquiryActivity.this, response, Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
             }
         }, new Response.ErrorListener() {
@@ -234,6 +230,7 @@ public class EnquiryActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> params=new HashMap<String,String>();
+                params.put("action","addItem");
                 params.put("name",name.getText().toString());
                 params.put("surname",surname.getText().toString());
                 params.put("email",email.getText().toString());
