@@ -11,12 +11,10 @@
         android:id="@+id/excel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_10dp"
-        android:layout_marginEnd="@dimen/margin_10dp"
         android:layout_weight="1"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/margin_10dp"
-        android:layout_marginTop="15dp"
+        android:layout_margin="40dp"
         android:background="@drawable/right_btn_bg"
         android:gravity="center"
         android:onClick="Excel"
@@ -31,19 +29,16 @@
         android:layout_height="wrap_content"
         android:elevation="20dp"
         android:id="@+id/progressbar"
-        android:layout_below="@+id/excel"
         android:visibility="gone"
-        android:progressTint="@color/colorPrimary"
+        android:progressTint="@color/black"
         android:layout_centerInParent="true">
-
     </ProgressBar>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/recycler"
-        android:layout_below="@+id/excel"
-        android:layout_marginTop="20dp"/>
+      android:paddingTop="20dp"/>
 
 
 

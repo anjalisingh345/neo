@@ -47,6 +47,7 @@ public class Show_studentdata extends AppCompatActivity {
         rc.setLayoutManager(layoutManager);
 
 
+        progressBar.setVisibility(View.VISIBLE);
         //for getting place information
 
         requestQueue= Volley.newRequestQueue(Show_studentdata.this);
@@ -54,7 +55,7 @@ public class Show_studentdata extends AppCompatActivity {
                 new JSONObject(), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-
+                progressBar.setVisibility(View.GONE);
                 JSONArray jsonArray = null;
                 try {
                     jsonArray = response.getJSONArray("data");
@@ -95,7 +96,7 @@ public class Show_studentdata extends AppCompatActivity {
 
                     }
                 } catch (JSONException e) {
-
+                    progressBar.setVisibility(View.GONE);
                     e.printStackTrace();
                 }
                 Adapter adapter =new Adapter(Show_studentdata.this,mydata);
