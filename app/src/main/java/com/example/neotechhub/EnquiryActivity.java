@@ -211,6 +211,18 @@ public class EnquiryActivity extends AppCompatActivity {
 
     private void insertdata() {
 
+        final String Name = name.getText().toString().trim();
+        final  String Surname = surname.getText().toString().trim();
+        final String Email = email.getText().toString().trim();
+        final  String Gender = gender.getText().toString().trim();
+        final String Date_oF_Birth = dob.getText().toString().trim();
+        final String Address = address.getText().toString().trim();
+        final  String Contact = contact.getText().toString().trim();
+        final String College = college.getText().toString().trim();
+        final  String Course = spinner.getSelectedItem().toString().trim();
+        final String GetToknow = gettoknow.getText().toString().trim();
+        final String Stream = stream.getText().toString().trim();
+
         progressBar.setVisibility(View.VISIBLE);
         StringRequest request=new StringRequest(Request.Method.POST, EndPoints.registration_api, new Response.Listener<String>() {
             @Override
@@ -234,17 +246,17 @@ public class EnquiryActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> params=new HashMap<String,String>();
-                params.put("name",name.getText().toString());
-                params.put("surname",surname.getText().toString());
-                params.put("email",email.getText().toString());
-                params.put("dob",dob.getText().toString());
-                params.put("address",address.getText().toString());
-                params.put("contact",contact.getText().toString());
-                params.put("stream",stream.getText().toString());
-                params.put("college",college.getText().toString());
-                params.put("gettoknow",gettoknow.getText().toString());
-                params.put("gender",gender.getText().toString());
-                params.put("course",spinner.getSelectedItem().toString());
+                params.put("Name",Name);
+                params.put("Surname",Surname);
+                params.put("Email",Email);
+                params.put("Date_oF_Birth",Date_oF_Birth);
+                params.put("Gender",Gender);
+                params.put("Address",Address);
+                params.put("Contact",Contact);
+                params.put("Stream",Stream);
+                params.put("College",College);
+                params.put("GetToknow",GetToknow);
+                params.put("Course",Course);
                 params.put("image","encodingimage");
                 return params;
             }
