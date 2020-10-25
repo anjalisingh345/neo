@@ -5,16 +5,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -22,7 +25,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Show_studentdata extends AppCompatActivity {
 
@@ -51,14 +56,15 @@ public class Show_studentdata extends AppCompatActivity {
         //for getting place information
 
         requestQueue= Volley.newRequestQueue(Show_studentdata.this);
-        JsonObjectRequest obj = new JsonObjectRequest(Request.Method.POST, Url,
-                new JSONObject(), new Response.Listener<JSONObject>() {
+        StringRequest request=new StringRequest(Request.Method.POST, EndPoints.registration_api, new Response.Listener<String>() {
             @Override
-            public void onResponse(JSONObject response) {
+            public void onResponse(String response) {
                 progressBar.setVisibility(View.GONE);
                 JSONArray jsonArray = null;
                 try {
-                    jsonArray = response.getJSONArray("data");
+                    JSONObject jsonObject = new JSONObject(response);
+               jsonArray= (JSONArray) jsonObject.get("user");
+
                     for (int i =0; i<jsonArray.length();i++)
                     {
                         JSONObject obj =jsonArray.getJSONObject(i);
@@ -73,9 +79,6 @@ public class Show_studentdata extends AppCompatActivity {
                         String college=obj.getString("college");
                         String gettoknow=obj.getString("gettoknow");
                         String course=obj.getString("course");
-                      //  String img=obj.getString("image");
-
-
 
                         EnquiryModel model = new EnquiryModel();
                         model.setName(name);
@@ -88,11 +91,11 @@ public class Show_studentdata extends AppCompatActivity {
                         model.setStream(stream);
                         model.setCollege(college);
                         model.setGettoknow(gettoknow);
-                       // model.setImage(img);
+                        // model.setImage(img);
                         model.setCourse(course);
 
                         mydata.add(model);
-                        Toast.makeText(Show_studentdata.this,""+name,Toast.LENGTH_LONG).show();
+
 
                     }
                 } catch (JSONException e) {
@@ -101,24 +104,24 @@ public class Show_studentdata extends AppCompatActivity {
                 }
                 Adapter adapter =new Adapter(Show_studentdata.this,mydata);
                 rc.setAdapter(adapter);
-                Toast.makeText(Show_studentdata.this,""+mydata.size(),Toast.LENGTH_LONG).show();
-
-
-
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Log.d("hhh",error.getMessage());
                 Toast.makeText(Show_studentdata.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
-
                 progressBar.setVisibility(View.GONE);
             }
-        });
-        requestQueue.add(obj);
-
-
-
-
+        })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params=new HashMap<String,String>();
+                params.put("action","readAll");
+                return params;
+            }
+        };
+        requestQueue.add(request);
     }
 
     public void Excel(View view) {

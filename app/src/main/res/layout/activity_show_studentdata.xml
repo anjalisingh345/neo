@@ -5,25 +5,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".Show_studentdata">
 
-    <Button
-        android:id="@+id/excel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="40dp"
-        android:background="@drawable/right_btn_bg"
-        android:gravity="center"
-        android:onClick="Excel"
-        android:padding="7dp"
-        android:text="Excel File"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="@dimen/mid_text"
-        android:textStyle="bold" />
+<!--    <Button-->
+<!--        android:id="@+id/excel"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_weight="1"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_alignParentRight="true"-->
+<!--        android:layout_margin="40dp"-->
+<!--        android:background="@drawable/right_btn_bg"-->
+<!--        android:gravity="center"-->
+<!--        android:onClick="Excel"-->
+<!--        android:padding="7dp"-->
+<!--        android:text="Excel File"-->
+<!--        android:textAllCaps="false"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:textSize="@dimen/mid_text"-->
+<!--        android:textStyle="bold" />-->
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -38,7 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/recycler"
-      android:paddingTop="20dp"/>
+   />
 
 
 

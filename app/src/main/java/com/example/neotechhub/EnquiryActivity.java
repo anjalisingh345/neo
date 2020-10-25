@@ -9,6 +9,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -52,6 +54,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class EnquiryActivity extends AppCompatActivity {
     ProgressDialog prgDialog;
    Bitmap bitmap;
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
    String encodingimage;
    private static int REQUEST_IMAGE_CAPTURE = 1;
     private static String TIME_STAMP="null";
@@ -68,14 +71,7 @@ public class EnquiryActivity extends AppCompatActivity {
     TextInputEditText name,surname,email,address,contact,gettoknow,gender,college,stream;
 
 
-    DatePickerDialog.OnDateSetListener dt = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker datePicker, int year, int month, int Date) {
 
-            dob.setText(String.format("" + year + ":" + (month + 1) + ":" + Date));
-
-        }
-    };
 
 
     @Override
@@ -111,8 +107,8 @@ public class EnquiryActivity extends AppCompatActivity {
 
 
 
-        camera = findViewById(R.id.img);
-        profile = findViewById(R.id.profile);
+//        camera = findViewById(R.id.img);
+//        profile = findViewById(R.id.profile);
         dob = findViewById(R.id.edtdob);
         spinner = findViewById(R.id.spinner);
 
@@ -125,18 +121,40 @@ public class EnquiryActivity extends AppCompatActivity {
 
 
 
-
-        dob.setOnClickListener(new View.OnClickListener() {
+        dob.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View v) {
-                Calendar calendar = Calendar.getInstance();
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus)
+                {
+                            Calendar cal = Calendar.getInstance();
+                            int year = cal.get(Calendar.YEAR);
+                            int month = cal.get(Calendar.MONTH);
+                            int day = cal.get(Calendar.DAY_OF_MONTH);
 
-                new DatePickerDialog(
-                        EnquiryActivity.this, dt, calendar.get(Calendar.DATE),
-                        calendar.get(Calendar.MONTH),
-                        calendar.get(Calendar.YEAR)).show();
-            }
+                            DatePickerDialog dialog = new DatePickerDialog(
+                                    EnquiryActivity.this,
+                                    android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                                    mDateSetListener,
+                                    year,month,day);
+                            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                            dialog.show();
+                        }
+
+
+
+
+                }
         });
+
+        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                month = month + 1;
+                String date = month + "/" + day + "/" + year;
+                dob.setText(date);
+            }
+        };
+
 
         submit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,65 +164,65 @@ public class EnquiryActivity extends AppCompatActivity {
             }
         });
 
-        camera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               // Intent i3 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                //startActivityForResult(i3, count);
-
-                Dexter.withContext(getApplicationContext())
-                        .withPermission(Manifest.permission.CAMERA)
-                        .withListener(new PermissionListener() {
-                            @Override
-                            public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
-
-                                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                startActivityForResult(intent,111);
-                            }
-
-                            @Override
-                            public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
-
-                            }
-
-                            @Override
-                            public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
-
-                                permissionToken.continuePermissionRequest();
-                            }
-                        }).check();
-            }
-        });
+//        camera.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//               // Intent i3 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                //startActivityForResult(i3, count);
+//
+//                Dexter.withContext(getApplicationContext())
+//                        .withPermission(Manifest.permission.CAMERA)
+//                        .withListener(new PermissionListener() {
+//                            @Override
+//                            public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
+//
+//                                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                                startActivityForResult(intent,111);
+//                            }
+//
+//                            @Override
+//                            public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
+//
+//                            }
+//
+//                            @Override
+//                            public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
+//
+//                                permissionToken.continuePermissionRequest();
+//                            }
+//                        }).check();
+//            }
+//        });
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-       if (requestCode==111 && resultCode == RESULT_OK) {
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//       if (requestCode==111 && resultCode == RESULT_OK) {
+//
+//           bitmap = (Bitmap)data.getExtras().get("data");
+//           profile.setImageBitmap(bitmap);
+//           encodebitmap(bitmap);
+//       }
+//      //      Bundle b = data.getExtras();
+//        //    Bitmap btp = (Bitmap) b.get("data");
+//          //  image.setImageBitmap(btp);
+//
+//            //count++;
+//
+//
+//
+//
+//       super.onActivityResult(requestCode, resultCode, data);
+//    }
 
-           bitmap = (Bitmap)data.getExtras().get("data");
-           profile.setImageBitmap(bitmap);
-           encodebitmap(bitmap);
-       }
-      //      Bundle b = data.getExtras();
-        //    Bitmap btp = (Bitmap) b.get("data");
-          //  image.setImageBitmap(btp);
-
-            //count++;
-
-
-
-
-       super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    private void encodebitmap(Bitmap bitmap) {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
-
-        byte[] byteofimages = byteArrayOutputStream.toByteArray();
-        encodingimage = android.util.Base64.encodeToString(byteofimages, Base64.DEFAULT);
-    }
+//    private void encodebitmap(Bitmap bitmap) {
+//        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+//        bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
+//
+//        byte[] byteofimages = byteArrayOutputStream.toByteArray();
+//        encodingimage = android.util.Base64.encodeToString(byteofimages, Base64.DEFAULT);
+//    }
 
 
 
@@ -242,7 +260,7 @@ public class EnquiryActivity extends AppCompatActivity {
                 params.put("gettoknow",gettoknow.getText().toString());
                 params.put("gender",gender.getText().toString());
                 params.put("course",spinner.getSelectedItem().toString());
-//                params.put("image","encodingimage");
+              params.put("image","null");
                 return params;
             }
         };
