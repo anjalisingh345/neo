@@ -111,7 +111,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="surname"
+                                android:text=""
                                 android:id="@+id/surname"
                                 android:layout_toRightOf="@+id/name"
                                 android:textColor="@color/black"
