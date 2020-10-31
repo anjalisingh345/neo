@@ -104,6 +104,7 @@ public class Show_studentdata extends AppCompatActivity {
                 }
                 Adapter adapter =new Adapter(Show_studentdata.this,mydata);
                 rc.setAdapter(adapter);
+                Toast.makeText(Show_studentdata.this,""+mydata.size(),Toast.LENGTH_LONG).show();
             }
         }, new Response.ErrorListener() {
             @Override

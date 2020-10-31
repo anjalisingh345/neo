@@ -9,9 +9,12 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.view.View;
 import android.widget.AdapterView;
@@ -42,6 +45,7 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
 import java.io.ByteArrayOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -55,27 +59,24 @@ public class EnquiryActivity extends AppCompatActivity {
    String encodingimage;
    private static int REQUEST_IMAGE_CAPTURE = 1;
     private static String TIME_STAMP="null";
+    private SimpleDateFormat mformat;
+
     Button submit_btn;
 
-    ImageView camera;
+    ImageView camera,logo;
     CircleImageView profile;
     ImageView back_btn;
     int count=1;
     Spinner spinner;
+    Spinner gender;
+    TextView text;
     RequestQueue requestQueue;
     TextInputEditText dob;
     ProgressBar progressBar;
-    TextInputEditText name,surname,email,address,contact,gettoknow,gender,college,stream;
+    TextInputEditText name,surname,email,address,contact,gettoknow,college,stream;
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
 
 
-    DatePickerDialog.OnDateSetListener dt = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker datePicker, int year, int month, int Date) {
-
-            dob.setText(String.format("" + year + ":" + (month + 1) + ":" + Date));
-
-        }
-    };
 
 
     @Override
@@ -97,8 +98,8 @@ public class EnquiryActivity extends AppCompatActivity {
 //        });
 
 
-
-
+        text = findViewById(R.id.text);
+        logo = findViewById(R.id.neotxt);
         name=findViewById(R.id.edtname);
         surname = findViewById(R.id.edtsurname);
         email=findViewById(R.id.edtEmail);
@@ -111,42 +112,123 @@ public class EnquiryActivity extends AppCompatActivity {
 
 
 
-        camera = findViewById(R.id.img);
-        profile = findViewById(R.id.profile);
+      //  camera = findViewById(R.id.img);
+        //profile = findViewById(R.id.profile);
         dob = findViewById(R.id.edtdob);
         spinner = findViewById(R.id.spinner);
 
-        String[] course = {"Course -", "Android", "Django", "Digital Marketing", "Web Development","Data Science"};
+        final String[] course = {"Course -","Android","Python", "Django", "Digital Marketing"
+                , "Website Design","Web Development","Data Science","NLP","Object Detection","Child programming"
+                ,"Java","Artificial Inteligence","Graphic Design","C/C++","Robotics","CPCT"
+                ,"IOT","11th & 12th","PGDCA","DCA","BCA","MSC CS","Tally","Basic"};
 
         ArrayAdapter arrayAdapter = new ArrayAdapter(EnquiryActivity.this,
                 android.R.layout.simple_spinner_item, course);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         spinner.setAdapter(arrayAdapter);
 
+        String[] Gender = {"Gender -",   "Female"  ,"Male",   "Other"};
+
+        ArrayAdapter adapter = new ArrayAdapter(EnquiryActivity.this,
+                android.R.layout.simple_spinner_item, Gender);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        gender.setAdapter(adapter);
 
 
 
-        dob.setOnClickListener(new View.OnClickListener() {
+
+
+        dob.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View v) {
-                Calendar calendar = Calendar.getInstance();
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus)
+                {
+                    Calendar cal = Calendar.getInstance();
+                    int year = cal.get(Calendar.YEAR);
+                    int month = cal.get(Calendar.MONTH);
+                    int day = cal.get(Calendar.DAY_OF_MONTH);
 
-                new DatePickerDialog(
-                        EnquiryActivity.this, dt, calendar.get(Calendar.DATE),
-                        calendar.get(Calendar.MONTH),
-                        calendar.get(Calendar.YEAR)).show();
+                    DatePickerDialog dialog = new DatePickerDialog(
+                            EnquiryActivity.this,
+                            android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                            mDateSetListener,
+                            year,month,day);
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    dialog.show();
+                }
             }
         });
+
+
+        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                month = month + 1;
+                String date = month + "/" + day + "/" + year;
+                dob.setText(date);
+            }
+        };
+
 
         submit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                insertdata();
+
+                final  ProgressDialog progressDialog = new ProgressDialog(EnquiryActivity.this);
+                progressDialog.setMessage("Please wait.....");
+
+                if (name.getText().toString().equals("")){
+                    Toast.makeText(EnquiryActivity.this,"Enter username",Toast.LENGTH_LONG).show();
+                }
+                else if (surname.getText().toString().equals("")){
+                    Toast.makeText(EnquiryActivity.this,"Enter usersurname",Toast.LENGTH_LONG).show();
+                }
+                else if (email.getText().toString().equals("")){
+                    Toast.makeText(EnquiryActivity.this,"Enter useremail",Toast.LENGTH_LONG).show();
+                }
+                else if (address.getText().toString().equals("")){
+                    Toast.makeText(EnquiryActivity.this,"Enter useraddress",Toast.LENGTH_LONG).show();
+                }
+                else if (dob.getText().toString().equals("")){
+                    Toast.makeText(EnquiryActivity.this,"Enter userdob",Toast.LENGTH_LONG).show();
+                }
+                else if (contact.getText().toString().equals("")){
+                    Toast.makeText(EnquiryActivity.this,"Enter usercontact",Toast.LENGTH_LONG).show();
+                }
+
+                else if (stream.getText().toString().equals("")){
+                    Toast.makeText(EnquiryActivity.this,"Enter userstream",Toast.LENGTH_LONG).show();
+                }
+
+                else if (college.getText().toString().equals("")){
+                    Toast.makeText(EnquiryActivity.this,"Enter college",Toast.LENGTH_LONG).show();
+                }
+
+                else if (gettoknow.getText().toString().equals("")){
+                    Toast.makeText(EnquiryActivity.this,"Enter get to know",Toast.LENGTH_LONG).show();
+                }
+                else if (gender.getSelectedItem().toString().equals("")){
+                    Toast.makeText(EnquiryActivity.this,"Enter gender",Toast.LENGTH_LONG).show();
+                }
+                else if (spinner.getSelectedItem().toString().equals("")){
+                    Toast.makeText(EnquiryActivity.this,"Enter course",Toast.LENGTH_LONG).show();
+
+
+            }
+                else if (contact.length()<10){
+                Toast.makeText(EnquiryActivity.this,"Contact Number enter 10 digits",Toast.LENGTH_LONG).show();
+            }
+
+
+                else {
+                    insertdata();
 //                startActivity(new Intent(EnquiryActivity.this, Show_studentdata.class));
+                }
             }
         });
 
-        camera.setOnClickListener(new View.OnClickListener() {
+      /*/  camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                // Intent i3 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -174,7 +256,7 @@ public class EnquiryActivity extends AppCompatActivity {
                             }
                         }).check();
             }
-        });
+        });/*/
 
     }
 
@@ -183,7 +265,7 @@ public class EnquiryActivity extends AppCompatActivity {
        if (requestCode==111 && resultCode == RESULT_OK) {
 
            bitmap = (Bitmap)data.getExtras().get("data");
-           profile.setImageBitmap(bitmap);
+         //  profile.setImageBitmap(bitmap);
            encodebitmap(bitmap);
        }
       //      Bundle b = data.getExtras();
@@ -214,6 +296,11 @@ public class EnquiryActivity extends AppCompatActivity {
         StringRequest request=new StringRequest(Request.Method.POST, EndPoints.registration_api, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+
+             Intent intent = new Intent(EnquiryActivity.this,MainActivity.class);
+             startActivity(intent);
+
+
                 Toast.makeText(EnquiryActivity.this, response, Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
             }
@@ -240,7 +327,7 @@ public class EnquiryActivity extends AppCompatActivity {
                 params.put("stream",stream.getText().toString());
                 params.put("college",college.getText().toString());
                 params.put("gettoknow",gettoknow.getText().toString());
-                params.put("gender",gender.getText().toString());
+                params.put("gender",gender.getSelectedItem().toString());
                 params.put("course",spinner.getSelectedItem().toString());
 //                params.put("image","encodingimage");
                 return params;
@@ -250,14 +337,6 @@ public class EnquiryActivity extends AppCompatActivity {
         requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(request);
 
-
-
     }
-
-
-
-
-
-
 }
 
